@@ -1,0 +1,30 @@
+# ============================================================
+# MenuForge — CUDA-specific install notes
+# Run BEFORE requirements.txt to avoid pip overwriting the
+# CUDA wheel with a CPU-only rebuild.
+# ============================================================
+#
+# llama-cpp-python requires a pre-built CUDA wheel.
+# The wheel already installed in this venv is:
+#   llama_cpp_python==0.3.20  (CUDA 12.x, compute 8.6)
+#
+# To reinstall (e.g. fresh venv), use:
+#
+#   CMAKE_ARGS="-DGGML_CUDA=on" \
+#   FORCE_CMAKE=1 \
+#   pip install llama-cpp-python==0.3.20 \
+#     --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu121
+#
+# Or use the pre-built wheels index:
+#   pip install llama-cpp-python==0.3.20 \
+#     --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124
+#
+# Verify CUDA is active after install:
+#   python -c "from llama_cpp import Llama; print('CUDA OK')"
+#
+# IMPORTANT: requirements.txt pins llama-cpp-python==0.3.20 to
+# prevent pip from silently downgrading to the CPU wheel.
+# Only bump this pin after verifying the new CUDA wheel builds.
+# ============================================================
+
+# No pip install targets in this file — it is documentation only.

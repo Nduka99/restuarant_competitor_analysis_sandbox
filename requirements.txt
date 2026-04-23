@@ -1,0 +1,58 @@
+# ============================================================
+# MenuForge — direct runtime dependencies
+# Python 3.11  |  WSL2 Ubuntu  |  RTX 4060 Laptop (8 GB VRAM)
+# ============================================================
+# Install order matters — see setup.sh for the correct sequence.
+# After a clean install run: pip freeze > requirements.lock
+# ============================================================
+
+# ── Orchestration ────────────────────────────────────────────
+langgraph>=1.1.9,<2.0
+langchain-core>=1.3.0,<2.0
+
+# ── Knowledge retrieval ──────────────────────────────────────
+# lightrag-hku: GraphRAG — API surface changes frequently;
+# bump only after reading release notes.
+lightrag-hku>=1.0.0,<2.0
+lancedb==0.30.2
+tantivy>=0.22.0              # LanceDB FTS backend (BM25 via Tantivy/Rust)
+ragas==0.4.3
+
+# ── Transformer stack ────────────────────────────────────────
+# bitsandbytes: WSL2 requires the Linux wheel, not the Windows one.
+# If install fails: pip install bitsandbytes --index-url https://pypi.org/simple
+transformers>=4.44.0,<5.0
+accelerate>=0.34.0,<2.0
+bitsandbytes>=0.43.0,<1.0
+safetensors>=0.4.0,<1.0      # already installed — keep pinned
+
+# ── LLM inference (CUDA — see requirements-cuda.txt) ─────────
+# llama-cpp-python is pinned to the pre-built CUDA wheel.
+# DO NOT reinstall via this file; see requirements-cuda.txt.
+llama-cpp-python==0.3.20
+
+# ── Data ─────────────────────────────────────────────────────
+pandas>=2.2.0,<3.0
+scikit-learn>=1.5.0,<2.0
+numpy>=2.0.0,<3.0            # already installed
+scipy>=1.13.0,<2.0           # already installed
+networkx>=3.3,<4.0           # already installed
+
+# ── Config & validation ──────────────────────────────────────
+pyyaml>=6.0,<7.0             # already installed
+pydantic>=2.8.0,<3.0
+python-dotenv>=1.0.0,<2.0    # already installed
+
+# ── UI ───────────────────────────────────────────────────────
+gradio>=4.44.0,<6.0
+
+# ── PDF / image generation ───────────────────────────────────
+weasyprint>=60.0
+pillow>=10.0.0,<12.0         # already installed
+
+# ── Utilities ────────────────────────────────────────────────
+tqdm>=4.65.0,<5.0            # already installed
+tenacity>=8.0.0,<10.0        # already installed
+
+# ── Notebooks ────────────────────────────────────────────────
+ipykernel>=6.29.0,<7.0

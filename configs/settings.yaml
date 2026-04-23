@@ -1,0 +1,60 @@
+# ============================================================
+# MenuForge — runtime settings
+# Override locally by creating configs/local_settings.yaml
+# (that file is gitignored).
+# ============================================================
+
+project:
+  name: menuforge
+  version: "0.1.0"
+  seed: 42
+
+# ── Hardware ─────────────────────────────────────────────────
+hardware:
+  device: cuda          # cuda | cpu
+  vram_budget_gb: 7.5   # leave 0.5 GB headroom on RTX 4060 Laptop
+  # Single-model-at-a-time policy: unload before loading next model.
+  single_model_policy: true
+
+# ── Data acquisition ─────────────────────────────────────────
+data:
+  metros: [philadelphia, tampa]
+  cuisine: italian
+  target_restaurants: 500
+  target_menu_images: 30
+  raw_dir: data/raw
+  processed_dir: data/processed
+  graph_dir: data/graph
+
+# ── LightRAG / ChromaDB ──────────────────────────────────────
+retrieval:
+  backend: lightrag       # lightrag | chromadb (fallback if graph overhead too high)
+  chroma_collection: menuforge
+  lightrag_working_dir: data/graph/lightrag
+
+# ── LangGraph orchestration ──────────────────────────────────
+orchestration:
+  max_critique_rounds: 3       # convergence cut-off
+  convergence_threshold: 0.85  # critic score floor to accept
+  structured_logging: true
+  log_dir: outputs/traces
+
+# ── Evaluation ───────────────────────────────────────────────
+evaluation:
+  n_briefs: 5            # hand-authored test briefs
+  n_ablation_menus: 40   # E1: RAG ablation (5 briefs × 8 conditions)
+  n_convergence_runs: 50 # E2: convergence stability
+  n_agent_ablation: 100  # E3: agent ablation (~5 briefs × 4 configs × 5 runs)
+
+# ── Gradio demo ──────────────────────────────────────────────
+gradio:
+  host: "127.0.0.1"
+  port: 7860
+  share: false
+
+# ── Outputs ──────────────────────────────────────────────────
+outputs:
+  base_dir: outputs
+  figures_dir: outputs/figures
+  menus_dir: outputs/menus
+  reports_dir: outputs/reports

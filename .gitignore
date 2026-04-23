@@ -1,0 +1,74 @@
+# ── Virtual environment ──────────────────────────────────────
+.venv/
+venv/
+env/
+
+# ── Python cache ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ── Build artefacts ──────────────────────────────────────────
+*.egg-info/
+dist/
+build/
+
+# ── Secrets & config overrides ───────────────────────────────
+.env
+.env.*
+!.env.example
+secrets.yaml
+configs/local_*.yaml
+
+# ── Model weights (large binaries — store separately) ────────
+*.gguf
+*.bin
+*.safetensors
+models/
+
+# ── Raw data (large, re-acquirable) ─────────────────────────
+data/raw/
+data/processed/
+data/graph/
+data/lancedb/
+
+# ── Experiment outputs ───────────────────────────────────────
+outputs/
+
+# ── Local generators / helper scripts ────────────────────────
+scripts/
+
+# ── Documentation / local notes ──────────────────────────────
+*.md
+!README.md
+*.pdf
+*.docx
+*.pptx
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Jupyter ──────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── OS noise ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*:Zone.Identifier
+
+# ── IDE ──────────────────────────────────────────────────────
+.codex
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ── Test / coverage ──────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/

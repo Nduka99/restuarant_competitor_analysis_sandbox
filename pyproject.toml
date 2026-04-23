@@ -1,0 +1,35 @@
+[project]
+name = "menuforge"
+version = "0.1.0"
+description = "Multi-agent menu design sandbox — CMP7226 horizon scan evidence system"
+requires-python = ">=3.11,<3.12"
+
+# ── Ruff (linter + formatter) ────────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["agents", "utils", "eval", "configs"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+]
+ignore = [
+    "E501",  # line length — handled by formatter
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["agents", "utils", "eval", "configs"]
+
+# ── Pytest ───────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["eval"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

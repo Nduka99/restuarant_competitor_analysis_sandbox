@@ -1,0 +1,69 @@
+# ============================================================
+# MenuForge — model registry
+# Paths are relative to the menuforge/ root.
+# ============================================================
+#
+# Confirmed download targets (Phase 0):
+#   unsloth/gemma-4-E4B-it-GGUF          gemma-4-E4B-it-Q4_K_M.gguf        ~5.0 GB
+#   unsloth/gemma-4-26B-A4B-it-GGUF      gemma-4-26B-A4B-it-UD-Q4_K_M.gguf ~variable
+#   bartowski/Qwen_Qwen2.5-VL-7B-Instruct-GGUF  Qwen_Qwen2.5-VL-7B-Instruct-Q4_K_M.gguf ~4.7 GB
+#   unsloth/embeddinggemma-300m-GGUF      embeddinggemma-300M-BF16.gguf      ~0.6 GB
+# ============================================================
+
+models:
+  # Primary creative / intelligence backbone (fits alone in VRAM)
+  gemma4_e4b:
+    path: models/gemma-4-E4B-it-Q4_K_M.gguf
+    hf_repo: unsloth/gemma-4-E4B-it-GGUF
+    hf_filename: gemma-4-E4B-it-Q4_K_M.gguf
+    context_length: 8192
+    n_gpu_layers: -1       # -1 = all layers on GPU
+    n_threads: 8
+    role: [copywriter, art_director]
+    vram_gb_estimate: 4.0  # measured: 4127 MB
+    ready: true
+
+  # Larger backbone for market analysis — MoE: 26B total / 4B active
+  # UD-Q4_K_M = Unsloth Dynamic quant, equivalent quality to Q4_K_M
+  # May not fully fit in VRAM; llama-cpp-python will CPU-offload remaining layers.
+  gemma4_26b:
+    path: models/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf
+    hf_repo: unsloth/gemma-4-26B-A4B-it-GGUF
+    hf_filename: gemma-4-26B-A4B-it-UD-Q4_K_M.gguf
+    context_length: 8192
+    n_gpu_layers: -1       # profile first; reduce if OOM
+    n_threads: 8
+    role: [market_analyst]
+    vram_gb_estimate: 7.7  # measured: 7853 MB — fits in 8188 MB with ~335 MB headroom
+    load_time_s: 671       # slow: model file on Windows filesystem via WSL mount
+    tokens_per_s: 5.3      # measured at Q4_K_M UD, n_ctx=8192
+    ready: true
+    risk: "Model released 2026-04-02; UD quant is experimental.
+           Only 335 MB VRAM headroom — do not load alongside any other model.
+           Fallback: use gemma4_e4b for all roles if 26B OOMs."
+
+  # Vision-language model for dish extraction / brand critique
+  qwen25_vl_7b:
+    path: models/Qwen_Qwen2.5-VL-7B-Instruct-Q4_K_M.gguf
+    hf_repo: bartowski/Qwen_Qwen2.5-VL-7B-Instruct-GGUF
+    hf_filename: Qwen_Qwen2.5-VL-7B-Instruct-Q4_K_M.gguf
+    context_length: 4096
+    n_gpu_layers: -1
+    n_threads: 8
+    role: [brand_consistency_critic, vlm_extraction]
+    vram_gb_estimate: 4.7  # measured: 4809 MB
+    tokens_per_s: 31.5     # measured
+    ready: true
+
+  # Embedding model for ChromaDB / LightRAG
+  # BF16 = brain-float16, equivalent to FP16 for inference
+  embedding_gemma_308m:
+    path: models/embeddinggemma-300M-BF16.gguf
+    hf_repo: unsloth/embeddinggemma-300m-GGUF
+    hf_filename: embeddinggemma-300M-BF16.gguf
+    embedding: true
+    n_gpu_layers: -1
+    n_threads: 4
+    role: [embedder]
+    vram_gb_estimate: 0.7  # measured: 701 MB
+    ready: true
