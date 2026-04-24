@@ -39,6 +39,7 @@ outputs/
 
 # ── Local generators / helper scripts ────────────────────────
 scripts/
+notebooks/*.py
 
 # ── Documentation / local notes ──────────────────────────────
 *.md

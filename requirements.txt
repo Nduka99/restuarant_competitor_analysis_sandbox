@@ -25,6 +25,7 @@ transformers>=4.44.0,<5.0
 accelerate>=0.34.0,<2.0
 bitsandbytes>=0.43.0,<1.0
 safetensors>=0.4.0,<1.0      # already installed — keep pinned
+torchvision>=0.26.0,<1.0     # required for V-JEPA 2 video/image processor
 
 # ── LLM inference (CUDA — see requirements-cuda.txt) ─────────
 # llama-cpp-python is pinned to the pre-built CUDA wheel.
